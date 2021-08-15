@@ -268,6 +268,9 @@ const BaseTableStyles = {
             bottom: 0,
             overflow: 'hidden',
             pointerEvents: 'none',
+    },
+    '& .BaseTable__overlay > *': {
+    pointerEvents: 'auto'
     }
 },
 };
@@ -275,17 +278,3 @@ const BaseTableStyles = {
 
 export default BaseTableStyles;
 
-
-
-// .BaseTable__overlay {
-//     position: absolute;
-//     left: 0;
-//     right: 0;
-//     top: 0;
-//     bottom: 0;
-//     overflow: hidden;
-//     pointer-events: none;
-// }
-// .BaseTable__overlay > * {
-//     pointer-events: auto;
-// }
