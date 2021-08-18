@@ -134,14 +134,14 @@ const BaseTableStyles = {
         '&.BaseTable .BaseTable__header-row': {
             display: 'flex',
             alignItems: 'center',
-            borderBottom: '1px solid #eee',
+            border: '1px solid #ddd',
             boxSizing: 'border-box',
         },
 
         '&.BaseTable .BaseTable__row': {
             display: 'flex',
             alignItems: 'center',
-            borderBottom: '1px solid #eee',
+            border: '1px solid #ddd',
             boxSizing: 'border-box',
         },
         '& .BaseTable__header-row': {
@@ -168,7 +168,8 @@ const BaseTableStyles = {
             padding: '0 7.5px',
             boxSizing: 'border-box',
             position: 'relative',
-            cursor: 'default'
+            cursor: 'default',
+            borderLeft: '1px solid #ddd',
         },
         '& .BaseTable__row-cell': {
             minWidth: 0,
@@ -177,6 +178,7 @@ const BaseTableStyles = {
             alignItems: 'center',
             padding: '0 7.5px',
             boxSizing: 'border-box',
+            borderLeft: '1px solid #ddd',
         },
         '& .BaseTable__header-cell--align-center': {
             justifyContent: 'center',
