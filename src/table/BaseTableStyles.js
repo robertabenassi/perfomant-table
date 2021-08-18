@@ -1,5 +1,27 @@
 const BaseTableStyles = {
     root: {
+        // custom scrollbar
+        '& ::-webkit-scrollbar': {
+            width: 15,
+        },
+
+        /* Track */
+        '& ::-webkit-scrollbar-track': {
+            boxShadow: 'inset 0 0 4px grey',
+            borderRadius: 8,
+        },
+
+        /* Handle */
+        '& ::-webkit-scrollbar-thumb': {
+            background: 'grey',
+            borderRadius: 8,
+        },
+
+        /* Handle on hover */
+        '& ::-webkit-scrollbar-thumb:hover': {
+            background: '#d1d1d1'
+        },
+
         '&.BaseTable': {
             boxShadow: '0 2px 4px 0 #eee',
             backgroundColor: '#fff',
@@ -266,11 +288,11 @@ const BaseTableStyles = {
             bottom: 0,
             overflow: 'hidden',
             pointerEvents: 'none',
+        },
+        '& .BaseTable__overlay > *': {
+            pointerEvents: 'auto'
+        }
     },
-    '& .BaseTable__overlay > *': {
-        pointerEvents: 'auto'
-    }
-},
 };
 
 
