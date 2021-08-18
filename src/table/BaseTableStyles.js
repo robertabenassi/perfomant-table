@@ -60,6 +60,7 @@ const BaseTableStyles = {
 
         '& .BaseTable__table-frozen-left .BaseTable__body': {
             overflow: 'hidden !important',
+            overflowY: 'auto !important'
         },
         '& .BaseTable__table-frozen-left': {
             boxShadow: '2px 0 4px 0 #eee',
@@ -77,9 +78,6 @@ const BaseTableStyles = {
         },
         '& .BaseTable__table-frozen-left .BaseTable__row': {
             paddingRight: '0 !important',
-        },
-        '& .BaseTable__table-frozen-left .BasteTable__body': {
-            overflowY: 'auto !important'
         },
 
         '& .BaseTable__table-frozen-right': {
@@ -270,7 +268,7 @@ const BaseTableStyles = {
             pointerEvents: 'none',
     },
     '& .BaseTable__overlay > *': {
-    pointerEvents: 'auto'
+        pointerEvents: 'auto'
     }
 },
 };

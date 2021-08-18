@@ -120,11 +120,11 @@ const columnsCustomCell = [
     key: 'birthday',
     title: 'Birthday',
     dataKey: 'birthday',
-    dataGetter: ({ column, rowData }) =>
-      rowData[column.dataKey],
+    // dataGetter: ({ column, rowData }) =>
+    //   rowData[column.dataKey],
     width: 200,
     align: Column.Alignment.RIGHT,
-    sortable: true,
+    sortable: false,
   },
   {
     key: 'attachments',
@@ -188,7 +188,7 @@ Resizable.args = {
   height: 500,
   columns: resizableColumns,
   data: treeData,
-  frozenData: frozenData,
+  //frozenData: frozenData,
 };
 
 export const FrozenColumns = Template.bind({});
@@ -198,9 +198,20 @@ FrozenColumns.args = {
   height: 500,
   columns: fixedColumns,
   data: treeData,
-  frozenData: frozenData,
+  //frozenData: frozenData,
 };
 
+
+export const StickyRow = Template.bind({});
+StickyRow.args = {
+  fixed: true,
+  width: 1000,
+  height: 500,
+  columns: fixedColumns,
+  data: treeData,
+  frozenData: frozenData,
+  //expandColumnKey: expandColumnKey
+};
 
 export const Expandable = Template.bind({});
 Expandable.args = {
@@ -225,13 +236,15 @@ CustomCell.args = {
   //onColumnSort: onColumnSort
 };
 
-
-const onColumnSort = sortBy => {
-  const order = sortBy.order === SortOrder.ASC ? 1 : -1
-  const data = [...this.state.data]
-  // data.sort((a, b) => (a[sortBy.key] > b[sortBy.key] ? order : -order))
-  // this.setState({
-  //   sortBy,
-  //   data,
-  // })
-}
+export const Sortable = Template.bind({});
+Sortable.args = {
+  fixed: true,
+  width: 500,
+  height: 500,
+  columns: columnsCustomCell,
+  data: defaultData,
+  sortBy: defaultSort,
+  onColumnSort: (sortBy) => {
+    alert('write function for ordering')
+  }
+};
