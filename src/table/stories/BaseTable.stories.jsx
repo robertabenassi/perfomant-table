@@ -6,9 +6,11 @@ import BaseTable, {
   AutoResizer,
   normalizeColumns,
   callOrReturn,
+  GroupCell,
   unflatten,
   TableHeader as BaseTableHeader,
   TableRow as BaseTableRow,
+  TableHeaderRow
 } from '../index'
 
 
@@ -44,15 +46,15 @@ const fixedColumns = columns.map((column, columnIndex) => {
   let frozen
   if (columnIndex < 1) frozen = Column.FrozenDirection.LEFT
   if (columnIndex > 8) frozen = Column.FrozenDirection.RIGHT
-  return { ...column, frozen,  width: 300 }
+  return { ...column, frozen, width: 300 }
 })
 
 const resizableColumns = columns.map((column, columnIndex) => {
-  return { ...column, resizable: true,  width: 300 }
+  return { ...column, resizable: true, width: 300 }
 })
 
 const standardColumns = columns.map((column, columnIndex) => {
-  return { ...column,   width: 300 }
+  return { ...column, width: 300 }
 })
 
 
@@ -143,12 +145,12 @@ const columnsCustomCell = [
   }
 ];
 
-  const dataGenerator = (i) => ({
+const dataGenerator = (i) => ({
   id: `${i}`,
   name: 'Row ' + i,
   gender: i % 2 ? 'male' : 'female',
   score: {
-    math: i*70 + 30,
+    math: i * 70 + 30,
   },
   description: 'Description ' + i,
 });
@@ -158,7 +160,7 @@ const defaultData = new Array(5000)
   .map((x, i) => dataGenerator(i))
   .sort((a, b) => (a.name > b.name ? 1 : -1))
 
-  const defaultSort = { key: 'name', order: SortOrder.ASC }
+const defaultSort = { key: 'name', order: SortOrder.ASC }
 
 export default {
   title: 'BaseTable',
@@ -198,7 +200,6 @@ FrozenColumns.args = {
   height: 500,
   columns: fixedColumns,
   data: treeData,
-  //frozenData: frozenData,
 };
 
 
@@ -210,7 +211,6 @@ StickyRow.args = {
   columns: fixedColumns,
   data: treeData,
   frozenData: frozenData,
-  //expandColumnKey: expandColumnKey
 };
 
 export const Expandable = Template.bind({});
@@ -248,3 +248,121 @@ Sortable.args = {
     alert('write function for ordering')
   }
 };
+
+
+
+const multiHeaderColumns = columns.map((column, columnIndex) => {
+  let frozen
+  if (columnIndex < 3) frozen = Column.FrozenDirection.LEFT
+  if (columnIndex > 12) frozen = Column.FrozenDirection.RIGHT
+  return { ...column, frozen, width: 100 }
+})
+
+const headerRenderer = ({ cells, columns, headerIndex }) => {
+  if (headerIndex === 2) return cells
+
+  const groupCells = []
+  let width = 0
+  let idx = 0
+
+  columns.forEach((column, columnIndex) => {
+    // console.log(column, columnIndex, BaseTable)
+    // // if there are frozen columns, there will be some placeholders for the frozen cells
+    if (column[BaseTable.PlaceholderKey]) groupCells.push(cells[columnIndex])
+    else {
+      width += cells[columnIndex].props.style.width
+      idx++
+
+      const nextColumn = columns[columnIndex + 1]
+      if (
+        columnIndex === columns.length - 1 ||
+        nextColumn[BaseTable.PlaceholderKey] ||
+        idx === (headerIndex === 0 ? 4 : 2)
+      ) {
+        groupCells.push(
+          <span
+            key={`header-group-cell-${column.key}`}
+            style={{ ...cells[columnIndex].props.style, width }}
+          >
+            Group width {width}
+          </span>
+        )
+        width = 0
+        idx = 0
+      }
+    }
+  })
+  return groupCells
+}
+
+export const MultiHeader = Template.bind({});
+MultiHeader.args = {
+  fixed: true,
+  width: 500,
+  height: 500,
+  columns: multiHeaderColumns,
+  data: treeData,
+  headerHeight: [30, 40, 50],
+  headerRenderer: headerRenderer
+};
+
+
+const cellProps = ({ rowIndex, columnIndex }) =>
+  rowIndex % 2 === 0 && {
+    tagName: 'span',
+    onClick: e => {
+      e.preventDefault()
+      e.stopPropagation()
+      alert(`You clicked row ${rowIndex} column ${columnIndex}`)
+    },
+  }
+
+export const TableCellProps = Template.bind({});
+TableCellProps.args = {
+  fixed: true,
+  width: 500,
+  height: 500,
+  columns: fixedColumns,
+  data: treeData,
+  cellProps: cellProps
+};
+
+export const ScrollToRowWrapper = (props) => { 
+  const tableRef = React.useRef();
+  return (<>
+  <button onClick={() => tableRef.current.scrollToRow(100, 'auto')}>
+        scrollToRow(100, 'auto')
+        </button>
+      <button onClick={() => tableRef.current.scrollToRow(200, 'start')}>
+        scrollToRow(200, 'start'
+        </button>
+      <button onClick={() => tableRef.current.scrollToRow(300, 'center')}>
+        scrollToRow(300, 'center')
+        </button>
+      <button onClick={() => tableRef.current.scrollToRow(400, 'end')}>
+        scrollToRow(400, 'end')
+        </button>
+      <button onClick={() => tableRef.current.scrollToLeft(400)}>
+        scrollToLeft(400)
+        </button>
+      <button onClick={() => tableRef.current.scrollToTop(400)}>
+        scrollToTop(400)
+        </button>
+      <button
+        onClick={() =>
+          tableRef.scrollToPosition({ scrollLeft: 200, scrollTop: 2000 })
+        }
+      >
+        {'scrollToPosition({ scrollLeft: 200, scrollTop: 2000 })'}
+      </button>
+       <BaseTable ref={tableRef} width={props.width} height={props.height} fixed columns={props.columns} data={props.data} />
+  </>)
+}
+
+ScrollToRowWrapper.args = {
+  fixed: true,
+  width: 1200,
+  height: 500,
+  columns: fixedColumns,
+  data: treeData,
+}
