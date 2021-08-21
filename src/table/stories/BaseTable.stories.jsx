@@ -159,9 +159,6 @@ const defaultSort = { key: 'name', order: SortOrder.ASC }
 export default {
   title: 'BaseTable',
   component: BaseTable,
-  // argTypes: {
-  //   backgroundColor: { control: 'color' },
-  // },
 };
 
 const Template = (args) => <BaseTable {...args} />;
@@ -216,6 +213,42 @@ Expandable.args = {
   data: treeData,
   frozenData: frozenData,
   expandColumnKey: expandColumnKey
+};
+
+
+export const DynamicHeight = (props) => {
+  const [data, setData] = React.useState(props.data)
+
+  return (
+    <>
+      <button
+        onClick={() => {
+          setData([{
+                id: `${data.length + 1}`,
+                name: 'Row ' + data.length + 1,
+                gender: (data.length + 1) % 2 ? 'male' : 'female',
+                score: {
+                  math: (data.length + 1) * 70 + 30,
+                },
+                description: 'Tempora qui dolores quam non voluptatum ea eius ut soluta' + (data.length + 1),
+              }, ...data],
+          )
+        }}
+      >
+        Add item to top
+  </button>
+      <BaseTable width={props.width} height={props.height} fixed columns={props.columns} data={data} estimatedRowHeight={props.estimatedRowHeight} />
+    </>
+  )
+}
+
+DynamicHeight.args = {
+  fixed: true,
+  width: 1000,
+  height: 500,
+  columns: columnsCustomCell,
+  data: defaultData,
+  estimatedRowHeight: 40
 };
 
 
@@ -321,35 +354,35 @@ TableCellProps.args = {
   cellProps: cellProps
 };
 
-export const ScrollToRowWrapper = (props) => { 
+export const ScrollToRowWrapper = (props) => {
   const tableRef = React.useRef();
   return (<>
-  <button onClick={() => tableRef.current.scrollToRow(100, 'auto')}>
-        scrollToRow(100, 'auto')
+    <button onClick={() => tableRef.current.scrollToRow(100, 'auto')}>
+      scrollToRow(100, 'auto')
         </button>
-      <button onClick={() => tableRef.current.scrollToRow(200, 'start')}>
-        scrollToRow(200, 'start'
+    <button onClick={() => tableRef.current.scrollToRow(200, 'start')}>
+      scrollToRow(200, 'start'
         </button>
-      <button onClick={() => tableRef.current.scrollToRow(300, 'center')}>
-        scrollToRow(300, 'center')
+    <button onClick={() => tableRef.current.scrollToRow(300, 'center')}>
+      scrollToRow(300, 'center')
         </button>
-      <button onClick={() => tableRef.current.scrollToRow(400, 'end')}>
-        scrollToRow(400, 'end')
+    <button onClick={() => tableRef.current.scrollToRow(400, 'end')}>
+      scrollToRow(400, 'end')
         </button>
-      <button onClick={() => tableRef.current.scrollToLeft(400)}>
-        scrollToLeft(400)
+    <button onClick={() => tableRef.current.scrollToLeft(400)}>
+      scrollToLeft(400)
         </button>
-      <button onClick={() => tableRef.current.scrollToTop(400)}>
-        scrollToTop(400)
+    <button onClick={() => tableRef.current.scrollToTop(400)}>
+      scrollToTop(400)
         </button>
-      <button
-        onClick={() =>
-          tableRef.scrollToPosition({ scrollLeft: 200, scrollTop: 2000 })
-        }
-      >
-        {'scrollToPosition({ scrollLeft: 200, scrollTop: 2000 })'}
-      </button>
-       <BaseTable ref={tableRef} width={props.width} height={props.height} fixed columns={props.columns} data={props.data} />
+    <button
+      onClick={() =>
+        tableRef.scrollToPosition({ scrollLeft: 200, scrollTop: 2000 })
+      }
+    >
+      {'scrollToPosition({ scrollLeft: 200, scrollTop: 2000 })'}
+    </button>
+    <BaseTable ref={tableRef} width={props.width} height={props.height} fixed columns={props.columns} data={props.data} />
   </>)
 }
 
