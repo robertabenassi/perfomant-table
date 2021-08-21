@@ -3,14 +3,8 @@ import React from 'react';
 import BaseTable, {
   Column,
   SortOrder,
-  AutoResizer,
-  normalizeColumns,
-  callOrReturn,
-  GroupCell,
   unflatten,
-  TableHeader as BaseTableHeader,
-  TableRow as BaseTableRow,
-  TableHeaderRow
+
 } from '../index'
 
 
